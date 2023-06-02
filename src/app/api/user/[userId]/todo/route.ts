@@ -11,8 +11,6 @@ type TodoParams = {
   };
 };
 
-export const dynamic = "force-dynamic";
-
 export const GET = async (request: Request, { params }: TodoParams) => {
   const userId = parseInt(params.userId);
   const client = new PrismaClient();

@@ -1,33 +1,42 @@
-import { use } from "react";
-import { Todo } from "@/types";
-import { AddTodo } from "@/components/organisms";
-import { DeleteTodo } from "@/components/molecules";
+// "use client";
 
-export const dynamic = "force-dynamic";
+import { Todo } from "@/types";
+import { TodoPage, Props } from "@/components/templates/TodoPage";
+import { addPost, deletePost } from "./action";
+import { use } from "react";
+import { revalidatePath } from "next/cache";
 
 const getTodoList = async () => {
-  const res = await fetch("http://localhost:3000/api/user/1/todo");
+  const res = await fetch("http://localhost:3000/api/user/1/todo", {
+    cache: "no-store",
+  });
   return res.json();
 };
 
 export const Page = () => {
-  const todoList: Todo[] = use(getTodoList());
+  const todoList = use(getTodoList());
 
-  return (
-    <main className="pt-20 px-48">
-      <div className="py-20 px-28 bg-gray-800 rounded-lg">
-        <AddTodo />
-        {todoList.map((todo) => (
-          <div className="flex flex-row justify-between mt-4" key={todo.id}>
-            <div className="flex flex-col">
-              <div className="text-2xl font-bold">- {todo.title}</div>
-            </div>
-            <DeleteTodo todoId={todo.id} />
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  const onAddTodo = async (todo: Pick<Todo, "title" | "description">) => {
+    "use server";
+
+    await addPost(todo);
+    revalidatePath("/user/1/todo");
+  };
+
+  const onDeleteTodo = async (todoId: number) => {
+    "use server";
+
+    await deletePost(todoId);
+    revalidatePath("/user/1/todo");
+  };
+
+  const props: Props = {
+    todoList,
+    onAddTodo: onAddTodo,
+    onDeleteTodo: onDeleteTodo,
+  };
+
+  return <TodoPage {...props} />;
 };
 
 export default Page;

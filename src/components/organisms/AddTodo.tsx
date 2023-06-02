@@ -2,9 +2,11 @@
 
 import React from "react";
 import { Todo } from "@/types";
-import { useRouter } from "next/navigation";
 
-export const AddTodo = () => {
+type Props = {
+  onAddTodo: (todo: Pick<Todo, "title" | "description">) => Promise<any>;
+};
+export const AddTodo = ({ onAddTodo }: Props) => {
   const [newTodo, setNewTodo] = React.useState<
     Pick<Todo, "title" | "description">
   >({
@@ -12,17 +14,10 @@ export const AddTodo = () => {
     description: "",
   });
 
-  const router = useRouter();
-
-  const onAddTodo = async (todo: Pick<Todo, "title" | "description">) => {
-    const res = await fetch("http://localhost:3000/api/user/1/todo", {
-      method: "POST",
-      body: JSON.stringify(todo),
-    });
-
+  const onPressAddTodo = async (todo: Pick<Todo, "title" | "description">) => {
+    await onAddTodo(todo);
     setNewTodo({ title: "", description: "" });
-    router.refresh();
-    return res.json();
+    return;
   };
 
   return (
@@ -35,7 +30,7 @@ export const AddTodo = () => {
       />
       <button
         className="w-20 h-10 rounded-lg bg-green-600 px-4 py-2"
-        onClick={() => onAddTodo(newTodo)}
+        onClick={() => onPressAddTodo(newTodo)}
       >
         追加
       </button>
