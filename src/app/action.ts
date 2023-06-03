@@ -2,9 +2,31 @@
 
 import { PrismaClient } from "@prisma/client";
 
+export const getPosts = async () => {
+  const userId = 1;
+  const client = new PrismaClient();
+
+  const user = await client.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    return {
+      error: "User not found",
+    };
+  }
+
+  const todos = await client.todo.findMany({
+    where: { authorId: userId },
+    include: { author: true },
+  });
+
+  return todos;
+};
+
 export const addPost = async (params: {
   title: string;
-  description: string;
+  description: string | null;
 }) => {
   const userId = 1;
   const client = new PrismaClient();
