@@ -13,11 +13,11 @@ export const metadata = {
 export default function RootLayout({
   children,
   login,
-  dashboard,
+  modal,
 }: {
   children: React.ReactNode;
   login: React.ReactNode;
-  dashboard: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   const isLoggedIn = cookies().get("isLoggedIn")?.value === "true";
 
@@ -31,8 +31,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Header isLoggedIn={isLoggedIn} onPressLogin={onPressLogin} />
-        {children}
-        {isLoggedIn ? dashboard : login}
+        {modal}
+        {isLoggedIn ? children : login}
       </body>
     </html>
   );
