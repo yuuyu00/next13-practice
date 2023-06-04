@@ -1,5 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { Header } from "@/components/organisms";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,12 +12,28 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  login,
+  dashboard,
 }: {
   children: React.ReactNode;
+  login: React.ReactNode;
+  dashboard: React.ReactNode;
 }) {
+  const isLoggedIn = cookies().get("isLoggedIn")?.value === "true";
+
+  const onPressLogin = async () => {
+    "use server";
+
+    cookies().set("isLoggedIn", isLoggedIn ? "" : "true");
+  };
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header isLoggedIn={isLoggedIn} onPressLogin={onPressLogin} />
+        {children}
+        {isLoggedIn ? dashboard : login}
+      </body>
     </html>
   );
 }
