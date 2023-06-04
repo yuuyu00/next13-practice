@@ -6,20 +6,20 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id Int @id @default(autoincrement())
+  id String @id @default(auto()) @db.ObjectId @map("_id")
   name String
   todos Todo[]
 }
 
 model Todo {
-  id Int @id @default(autoincrement())
+  id String @id @default(auto()) @db.ObjectId @map("_id")
   title String
   description String?
   author User @relation(fields: [authorId], references: [id])
-  authorId Int
+  authorId String @db.ObjectId
 }

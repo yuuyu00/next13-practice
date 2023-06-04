@@ -24,7 +24,7 @@ export const Page = () => {
     revalidatePath("/");
   };
 
-  const onDeleteTodo = async (todoId: number) => {
+  const onDeleteTodo = async (todoId: string) => {
     "use server";
 
     await deleteTodo(todoId);

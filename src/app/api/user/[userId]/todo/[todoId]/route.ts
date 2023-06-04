@@ -9,8 +9,8 @@ type Params = {
 };
 
 export const DELETE = async (request: Request, { params }: Params) => {
-  const userId = parseInt(params.userId);
-  const todoId = parseInt(params.todoId);
+  const userId = params.userId;
+  const todoId = params.todoId;
   const client = new PrismaClient();
 
   const user = await client.user.findUnique({

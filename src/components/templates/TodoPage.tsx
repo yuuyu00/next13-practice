@@ -8,7 +8,7 @@ import Link from "next/link";
 export type Props = {
   todoList: Todo[] | undefined;
   onAddTodo: (todo: Pick<Todo, "title" | "description">) => Promise<any>;
-  onDeleteTodo: (todoId: number) => void;
+  onDeleteTodo: (todoId: string) => void;
 };
 export const TodoPage = ({ todoList, onAddTodo, onDeleteTodo }: Props) => {
   return (

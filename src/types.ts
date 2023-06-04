@@ -1,10 +1,10 @@
 export type User = {
-  id: number;
+  id: string;
   name: string;
 };
 
 export type Todo = {
-  id: number;
+  id: string;
   title: string;
   description: string | null;
   author: User;

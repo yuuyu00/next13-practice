@@ -12,7 +12,7 @@ type TodoParams = {
 };
 
 export const GET = async (request: Request, { params }: TodoParams) => {
-  const userId = parseInt(params.userId);
+  const userId = params.userId;
   const client = new PrismaClient();
 
   const user = await client.user.findUnique({
@@ -29,7 +29,7 @@ export const GET = async (request: Request, { params }: TodoParams) => {
 };
 
 export const POST = async (request: Request, { params }: TodoParams) => {
-  const userId = parseInt(params.userId);
+  const userId = params.userId;
   const client = new PrismaClient();
 
   const body = await request.json();
