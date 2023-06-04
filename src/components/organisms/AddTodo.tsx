@@ -15,7 +15,7 @@ export const AddTodo = ({ onAddTodo }: Props) => {
   });
 
   const onPressAddTodo = async (todo: Pick<Todo, "title" | "description">) => {
-    await onAddTodo(todo);
+    await onAddTodo({ ...todo, description: "sample description" });
     setNewTodo({ title: "", description: "" });
     return;
   };
