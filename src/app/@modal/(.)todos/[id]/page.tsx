@@ -19,7 +19,7 @@ type Params = {
   };
 };
 
-export const Page = ({ params }: Params) => {
+export default function Page({ params }: Params) {
   const todo = use(getTodo(parseInt(params.id)));
 
   const props: Props = {
@@ -31,6 +31,4 @@ export const Page = ({ params }: Params) => {
       <TodoDetailModal {...props} />
     </Modal>
   );
-};
-
-export default Page;
+}
